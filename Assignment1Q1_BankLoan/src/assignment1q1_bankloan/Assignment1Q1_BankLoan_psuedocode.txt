@@ -7,7 +7,7 @@ Purpose: The bank loan application
 Begin
 	Class InterestPmt
 		declare private double thePrincipal
-		declare private integer double thePeriod
+		declare private double thePeriod
 		declare private double theStartInterest
 		declare private double theEndInterest
 
@@ -84,8 +84,14 @@ Begin
 				if(this.isInvalid(theEndInterest))
 					print "Please enter a number greater than 0"
 					theFlag = true
+				else
+					theFlag = false
 				end if
 
+				if(theEndInterest >= 100.00)
+					print "Please enter an interest rate less than 100%"
+					theFlag = true
+				end if
 			while(theFlag)
 
 			do
@@ -129,10 +135,11 @@ Begin
 			return theFlag
 		end function
 
-		public function double pmtCalc(double inputInt, int inputN)
+		public function double pmtCalc(double inputInt, double inputN)
 			declare double calcPmt
+			declare integer periodN = (integer) inputN 
 
-			calcPmt = (intputInt * thePrincipal) / (1-((1+inputInt)^(-1*inputN)))
+			calcPmt = (intputInt * thePrincipal) / (1-((1+inputInt)^(-1*periodN)))
 
 			return calcPmt
 		end function
@@ -148,7 +155,7 @@ Begin
 
 			while(theStartInterest < = theEndInterest)
 				declare double r = (theStartInterest / 12)/100
-				declare integer n = thePeriod * 12
+				declare integer n = (integer)thePeriod * 12
 				thePmt = pmtCalc(r,n)
 				totPmt = thePmt*n
 				print "%20.2f %20.2f %20.2f \n", theStartInterest, thePmt, totPmt

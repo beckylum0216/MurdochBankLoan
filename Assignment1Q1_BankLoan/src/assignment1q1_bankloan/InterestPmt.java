@@ -8,7 +8,11 @@ package assignment1q1_bankloan;
 import java.util.Scanner;
 
 /**
- *
+ * @title Bank Loan
+ * @filename InterestPmt.java
+ * @purpose To encapsulate the functions of the bank loan application
+ * @assumptions the inputs will only be numerical with integers for the period
+ * and doubles for loan amount and interest
  * @author rebecca
  */
 public class InterestPmt 
@@ -29,7 +33,7 @@ public class InterestPmt
         this.thePrincipal = thePrincipal;
     }
 
-    public int getThePeriod() 
+    public double getThePeriod() 
     {
         return thePeriod;
     }
@@ -112,11 +116,21 @@ public class InterestPmt
             else
             {
                 theFlag = false;
-            }
+            }    
             
             if(this.isInvalid(theEndInterest))
             {
                 System.out.println("Please enter a number greater than 0:");
+                theFlag = true;
+            }
+            else
+            {
+                theFlag  = false;
+            }
+            
+            if(this.theEndInterest >= 100.00)
+            {
+                System.out.println("Please enter a interest rate less than 100%");
                 theFlag = true;
             }
             
@@ -136,7 +150,7 @@ public class InterestPmt
     }
     
     /**
-     * 
+     * This method checks if the period is less than 0
      * @param zPeriod is checked for whether it is less than or equal to 0.
      * @return
      */
@@ -152,9 +166,9 @@ public class InterestPmt
     }
     
     /**
-     *
-     * @param zAmount
-     * @return
+     * This method checks if the amount is less than 0.
+     * @param zAmount the input amount to be tested.
+     * @return a boolean value
      */
     public boolean isInvalid(double zAmount)
     {
@@ -168,8 +182,9 @@ public class InterestPmt
     }
     
     /**
-     *
-     * @return
+     * Method that checks if the the starting interest is bigger than the 
+     * ending interest. 
+     * @return a boolean value
      */
     public boolean isSmaller()
     {
@@ -183,12 +198,12 @@ public class InterestPmt
     }
     
     /**
-     *
-     * @param inputInt
-     * @param inputN
+     * This method is a helper method for calculating the monthly payment
+     * @param inputInt the monthly interest rate
+     * @param inputN the period number
      * @return
      */
-    public double pmtCalc(double inputInt, int inputN)
+    private double pmtCalc(double inputInt, int inputN)
     {
         double calcPmt;
         
@@ -198,7 +213,7 @@ public class InterestPmt
     }
     
     /**
-     *
+     * Method that will display the interest and loan payments
      */
     public void displayTable()
     {
@@ -212,7 +227,7 @@ public class InterestPmt
         while(theStartInterest <= theEndInterest)
         {
             double r = (theStartInterest /12)/100;
-            int n = thePeriod*12;
+            int  n = (int)thePeriod*12;
             thePmt = pmtCalc(r, n);
             totPmt = thePmt*n;
             System.out.printf("%20.2f%% %20.2f %20.2f\n", theStartInterest, 
@@ -222,8 +237,8 @@ public class InterestPmt
     }
     
     /**
-     *
-     * @return
+     * Method to exit the program. 
+     * @return boolean flag to end program
      */
     public char exitProg()
     {   
